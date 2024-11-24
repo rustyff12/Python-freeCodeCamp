@@ -1,39 +1,28 @@
-print("tests go here")
+from main import *
 
-# Will go in this format:
-""" from main import *
-
-run_cases = [
-    (1, 200, 300),
-    (2, 50, 250),
+# List of test cases
+test_cases = [
+    (["3801 - 2", "123 + 49"], "  3801      123\n-    2    +  49\n------    -----"),
+    (["1 + 2", "1 - 9380"], "    1         1\n+   2    - 9380\n----    ------"),
 ]
 
-submit_cases = run_cases + [
-    (0, 0, 0),
-    (0, 200, 200),
-    (176, 350, 17950),
-    (250, 100, 25100),
-]
-
-
-def test(input1, input2, expected_output):
+def test(input_data, expected_output):
     print("---------------------------------")
-    print(f"Inputs: {input1}, {input2}")
-    print(f"Expecting: {expected_output}")
-    result = total_xp(input1, input2)
-    print(f"Actual: {result}")
+    print(f"Input: {input_data}")
+    print(f"Expected:\n {expected_output}")
+    result = arithmetic_arranger(input_data)
     if result == expected_output:
         print("Pass")
         return True
-    print("Fail")
-    return False
-
-
+    else:
+        print("Fail")
+        return False
+    
 def main():
     passed = 0
     failed = 0
-    for test_case in test_cases:
-        correct = test(*test_case)
+    for input_data, expected_output in test_cases:
+        correct = test(input_data, expected_output)
         if correct:
             passed += 1
         else:
@@ -45,9 +34,5 @@ def main():
     print(f"{passed} passed, {failed} failed")
 
 
-test_cases = submit_cases
-if "__RUN__" in globals():
-    test_cases = run_cases
-
-main()
- """
+if __name__ == "__main__":
+    main()
