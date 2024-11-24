@@ -1,9 +1,58 @@
 def arithmetic_arranger(problems, show_answers=False):
-    return "Tesing"
-    # return problems
-
+    result = ""
+    if len(problems) > 5:
+        return "Error: Too many problems."
     
-print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
+    for item in problems:
+        if item.find("-") > -1:
+            item = item.split("-")
+            res = handle_string(item, "-")
+            result += res
+        elif item.find("+") > -1:
+            item = item.split("+")
+            res = handle_string(item, "+")
+            result += res
+        else:
+            return "Error: Operator must be '+' or '-'."
+        
+    return result
+
+def handle_string(list_item, symbol):
+    res = ""
+    count = 1
+    for v in list_item:
+        if count == 1:
+            curr = add_space(v, 1)
+            res = res + curr + "\n"
+            count += 1
+        else:
+            curr = add_space(v, 2)
+            res = res + symbol + curr + "\n"
+    return res + "-----"
+
+def add_space(num_string, str_num):
+    trim_string = num_string.strip()
+    res = ""
+    str_length = len(trim_string)
+    if str_num == 1:
+        empty_length = 5 - str_length
+    else:
+        empty_length = 4 - str_length
+
+
+    for _ in range(empty_length):
+        res += " "
+
+    return res +  trim_string
+
+
+# print(add_space("2", 1))
+# print(add_space("3801", 2))
+print(f"\n{arithmetic_arranger(["3801 - 2"])}")    
+# print(f"\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}")
+# print(f"\n{arithmetic_arranger(["44 + 815", "909 - 2", "45 + 43", "123 + 49", "888 + 40", "653 + 87"])}")
+# print(f"{arithmetic_arranger(["3 / 855", "3801 - 2", "45 + 43", "123 + 49"])}")
+
 
 #    32      3801      45      123
 # + 698    -    2    + 43    +  49
