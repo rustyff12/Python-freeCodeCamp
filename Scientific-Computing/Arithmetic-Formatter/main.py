@@ -1,73 +1,97 @@
 def arithmetic_arranger(problems, show_answers=False):
-    result = ""
+    # Length error
     if len(problems) > 5:
         return "Error: Too many problems."
     
+    item_count = 0
+    line_1 = ""
+    line_2 = ""
+    line_3 = ""
+    line_4 = ""
+    longest_string = 0
+
     for item in problems:
-        if item.find("-") > -1:
-            item = item.split("-")
-            res = handle_string(item, "-")
-            result += res
-        elif item.find("+") > -1:
-            item = item.split("+")
-            res = handle_string(item, "+")
-            result += res
-        else:
-            return "Error: Operator must be '+' or '-'."
-        
-    return result
+        try:
+            divider = ""
+            item_count = item_count + 1
+            
+            # Operator error
+            if item.find("/") > -1 or item.find("*") > -1:
+                return "Error: Operator must be '+' or '-'."
+            
+            # Separate list items
+            num1, operator, num2 = item.split()
+            num1 = num1.strip()
+            operator = operator.strip()
+            num2 = num2.strip()
+            
+            # Check num length
+            if len(num1) > 4 or len(num2) > 4:
+                return 'Error: Numbers cannot be more than four digits.'
 
-def handle_string(list_item, symbol):
-    res = ""
-    count = 1
-    for v in list_item:
-        if count == 1:
-            curr = add_space(v, 1)
-            res = res + curr + "\n"
-            count += 1
-        else:
-            curr = add_space(v, 2)
-            res = res + symbol + curr + "\n"
-    return res + "-----"
-
-def add_space(num_string, str_num):
-    trim_string = num_string.strip()
-    res = ""
-    str_length = len(trim_string)
-    if str_num == 1:
-        empty_length = 5 - str_length
+            # Answer for case of true
+            answer = eval(f"{int(num1)} {operator} {int(num2)}")
+            
+            # String length for formatting
+            longest_string = len(max(num1, num2, key=len))
+            
+            # add divider
+            for _ in range(longest_string + 2):
+                divider += "-"
+            divider_length = len(divider)
+            # Check for item num
+            if item_count == len(problems):
+                line_1 += add_space(num1, operator, divider_length, 1) + "\n" 
+                line_2 += add_space(num2, operator, divider_length, 2) + "\n" 
+                if show_answers == True:
+                    line_3 += divider + "\n"
+                else:
+                    line_3 += divider   
+                line_4 += add_space(str(answer), "", divider_length, 1)
+            else:
+                line_1 += add_space(num1, operator, divider_length, 1) + "    " 
+                line_2 += add_space(num2, operator, divider_length, 2) + "    "
+                line_3 += divider + "    "   
+                line_4 += add_space(str(answer), "", divider_length, 1) + "    "
+        except:
+            return 'Error: Numbers must only contain digits.'
+    if show_answers == True:
+        # print(repr(line_1 + line_2 + line_3 + line_4))
+        return line_1 + line_2 + line_3 + line_4
     else:
-        empty_length = 4 - str_length
+        # print(repr(line_1 + line_2 + line_3))
+        return line_1 + line_2 + line_3 
 
+# Add correct spacing
+def add_space(num, operator, longest_length, pos):
+    space = ""
+    num_length = len(num) + 1
+    if pos == 2:
+        for _ in range(longest_length - num_length):
+            space += " "
+        return operator + space + num
+    elif pos == 1:
+        for _ in range(longest_length - num_length):
+            space += " "
+        return " " + space + num
+    
+    
 
-    for _ in range(empty_length):
-        res += " "
+# print(f"\n{arithmetic_arranger(["3801 - 2", "32 + 698"], True)}")    
+# print(f"\n{arithmetic_arranger(["2 - 3801", "32 + 698"], True)}")    
+# print(f"\n{arithmetic_arranger(["32 + 698","3801 - 2"])}")    
+# print(arithmetic_arranger(["32 - 698", "1 - 3801", "45 + 43", "123 + 49", "988 + 40"], True))
 
-    return res +  trim_string
+# Digit length error
+# print(arithmetic_arranger(["24 + 85215", "3801 - 2", "45 + 43", "123 + 49"]))
 
-
-# print(add_space("2", 1))
-# print(add_space("3801", 2))
-print(f"\n{arithmetic_arranger(["3801 - 2"])}")    
-# print(f"\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}")
+# Length error
 # print(f"\n{arithmetic_arranger(["44 + 815", "909 - 2", "45 + 43", "123 + 49", "888 + 40", "653 + 87"])}")
+
+# Operator error
 # print(f"{arithmetic_arranger(["3 / 855", "3801 - 2", "45 + 43", "123 + 49"])}")
+# print(f"{arithmetic_arranger(["3 * 855", "3801 - 2", "45 + 43", "123 + 49"])}")
 
+# type error
+# print(arithmetic_arranger(["98 + 3g5", "3801 - 2", "45 + 43", "123 + 49"]))
 
-#    32      3801      45      123
-# + 698    -    2    + 43    +  49
-# -----    ------    ----    -----
-
-
-# arithmetic_arranger(["3801 - 2", "123 + 49"]) #   3801      123\n-    2    +  49\n------    -----
-# arithmetic_arranger(["1 + 2", "1 - 9380"]) # 1         1\n+ 2    - 9380\n---    ------
-# arithmetic_arranger(["3 + 855", "3801 - 2", "45 + 43", "123 + 49"]) #     3      3801      45      123\n+ 855    -    2    + 43    +  49\n-----    ------    ----    -----
-
-
-# arithmetic_arranger(["11 + 4", "3801 - 2999", "1 + 2", "123 + 49", "1 - 9380"]) #   11      3801      1      123         1\n+  4    - 2999    + 2    +  49    - 9380\n----    ------    ---    -----    ------.
-# arithmetic_arranger(["44 + 815", "909 - 2", "45 + 43", "123 + 49", "888 + 40", "653 + 87"]) # 'Error: Too many problems.'.
-# arithmetic_arranger(["3 / 855", "3801 - 2", "45 + 43", "123 + 49"]) # "Error: Operator must be '+' or '-'.".
-# arithmetic_arranger(["24 + 85215", "3801 - 2", "45 + 43", "123 + 49"]) # 'Error: Numbers cannot be more than four digits.'.
-# arithmetic_arranger(["98 + 3g5", "3801 - 2", "45 + 43", "123 + 49"]) # 'Error: Numbers must only contain digits.'.
-# arithmetic_arranger(["3 + 855", "988 + 40"], True) #     3      988\n+ 855    +  40\n-----    -----\n  858     1028.
-# arithmetic_arranger(["32 - 698", "1 - 3801", "45 + 43", "123 + 49", "988 + 40"], True) #    32         1      45      123      988\n- 698    - 3801    + 43    +  49    +  40\n-----    ------    ----    -----    -----\n -666     -3800      88      172     1028

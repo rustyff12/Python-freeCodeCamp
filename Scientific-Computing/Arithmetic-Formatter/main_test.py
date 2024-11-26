@@ -3,13 +3,15 @@ from main import *
 # List of test cases
 test_cases = [
     (["3801 - 2", "123 + 49"], "  3801      123\n-    2    +  49\n------    -----"),
-    (["1 + 2", "1 - 9380"], "    1         1\n+   2    - 9380\n----    ------"),
+    (["1 + 2", "1 - 9380"], "  1         1\n+ 2    - 9380\n---    ------"),
 ]
+
+
 
 def test(input_data, expected_output):
     print("---------------------------------")
     print(f"Input: {input_data}")
-    print(f"Expected:\n {expected_output}")
+    print(f"Expected:\n{expected_output}")
     result = arithmetic_arranger(input_data)
     if result == expected_output:
         print("Pass")
