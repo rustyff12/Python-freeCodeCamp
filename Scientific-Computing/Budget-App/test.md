@@ -31,4 +31,20 @@
 
 16. Printing a `Category` instance should give a different string representation of the object.
 
-17. `create_spend_chart` should print a different chart representation. Check that all spacing is exact. Open your browser console with F12 for more details
+----
+
+17. Title at the top of `create_spend_chart` chart should say `Percentage spent by category`.
+
+18. `create_spend_chart` chart should have correct percentages down the left side.
+
+19. The height of each bar on the `create_spend_chart` chart should be rounded down to the nearest 10.
+
+20. Each line in `create_spend_chart` chart should have the same length. Bars for different categories should be separated by two spaces, with additional two spaces after the final bar.
+
+21. `create_spend_chart` should correctly show horizontal line below the bars. Using three `-` characters for each category, and in total going two characters past the final bar.
+
+22. `create_spend_chart` chart should not have new line character at the end.
+
+23. `create_spend_chart` chart should have each category name written vertically below the bar. Each line should have the same length, each category should be separated by two spaces, with additional two spaces after the final category.
+
+24. `create_spend_chart` should print a different chart representation. Check that all spacing is exact. Open your browser console with F12 for more details.

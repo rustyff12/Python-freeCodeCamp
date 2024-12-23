@@ -34,32 +34,6 @@ class Category:
             return False
         return True
 
-    # def define_gap(self, left, right):
-    #     gap_num = 30 - (len(left) + len(right))
-    #     if gap_num <= 0:
-    #         trim_num = 29 - len(right)
-    #         left = left[:trim_num]
-    #         gap = " "
-    #     else:
-    #         gap = " " * gap_num
-    #     return f"{left}{gap}{right}"
-
-    # def __str__(self):
-    #     stars_num = (30 - len(self.name)) // 2
-    #     stars = "*" * stars_num 
-        
-    #     res_str = f"{stars}{self.name}{stars}\n"
-        
-    #     initial_deposit = self.define_gap("initial deposit", f"{self.ledger[0]['amount']:.2f}")
-    #     res_str += initial_deposit +"\n"
-        
-    #     for item in self.ledger[1:]:
-    #         res_str += self.define_gap(item["description"], f"{item['amount']:.2f}") + "\n"
-           
-
-    #     total = self.get_balance()
-    #     res_str += f"Total: {total}"
-    #     return res_str
     def __str__(self):    
         title = self.name.center(30, '*')  
         result = f"{title}\n"
@@ -76,18 +50,67 @@ class Category:
 
 
 
-def create_spend_chart(cat_lst):
-    pass
+# def create_spend_chart(cat_lst):
+def create_spend_chart(cat_list):
+    width = len(cat_list)
+    left_space = "    "
+    res_str = ""
+
+    for i in range(100, -1, -10):
+        res_str += f"{i}".rjust(3) + "|\n"
+        
+    res_str += f"{left_space}{'---' * width}"
+    
+    longest_word = ""
+    for item in cat_list:
+        if len(item.name) > len(longest_word):
+            longest_word = item.name
+
+    ## TODO: loop through longest, stacking vertical names
+    return res_str
+
 
 food = Category('Food')
 food.deposit(1000, 'deposit')
 food.withdraw(10.15, 'groceries')
-food.get_balance()
+# food.get_balance()
 food.withdraw(15.89, 'restaurant and more food for dessert')
 clothing = Category('Clothing')
 food.transfer(50, clothing)
 clothing.withdraw(25.55)
-print(food)
+auto = Category("Auto")
+auto.deposit(1000, 'deposit')
+auto.withdraw(500.00, 'test')
+
+auto.withdraw(50, 'Just a long text test here nothing else')
+# print(food)
+test1 = [food, clothing, auto]
+
+# print(create_spend_chart(["Food", "Clothing", "Auto"]))
+print(create_spend_chart(test1))
+
+# Percentage spent by category
+# 100|
+#  90|
+#  80|
+#  70|
+#  60| o
+#  50| o
+#  40| o
+#  30| o
+#  20| o  o
+#  10| o  o  o
+#   0| o  o  o
+#     ----------
+#      F  C  A
+#      o  l  u
+#      o  o  t
+#      d  t  o
+#         h
+#         i
+#         n
+#         g
+
 
 # *************Food*************
 # initial deposit        1000.00
